@@ -9,11 +9,11 @@ extern crate bitflags;
 extern crate stdweb;
 
 use std::cell::RefCell;
-use std::rc::Rc;
 use std::error::Error;
+use std::rc::Rc;
 
-use stdweb::web::{self, Element, IElement, IEventTarget, INode, INonElementParentNode};
 use stdweb::web::event::{IEvent, IKeyboardEvent, KeyDownEvent, KeyUpEvent, KeyboardLocation};
+use stdweb::web::{self, Element, IElement, IEventTarget, INode, INonElementParentNode};
 
 use stdweb::{UnsafeTypedArray, Value};
 
@@ -61,7 +61,7 @@ fn setup_webgl(canvas: &Element) -> Value {
 
     fn ortho(left: f64, right: f64, bottom: f64, top: f64) -> Vec<f64> {
         let mut m = vec![
-            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
         ];
 
         m[0 * 4 + 0] = 2.0 / (right - left);
@@ -129,7 +129,7 @@ fn setup_webgl(canvas: &Element) -> Value {
         var sampler_uniform = gl.getUniformLocation( program, "u_sampler" );
         gl.uniform1i( sampler_uniform, 0 );
 
-        var matrix = @{ortho( 0.0, 256.0, 240.0, 0.0 )};
+        var matrix = @{ortho( 0.0, 128.0, 128.0, 0.0 )};
         var matrix_uniform = gl.getUniformLocation( program, "u_matrix" );
         gl.uniformMatrix4fv( matrix_uniform, false, matrix );
 
@@ -139,12 +139,12 @@ fn setup_webgl(canvas: &Element) -> Value {
             gl.TEXTURE_2D,
             0,
             gl.RGBA,
-            256,
-            256,
+            128,
+            128,
             0,
             gl.RGBA,
             gl.UNSIGNED_BYTE,
-            new Uint8Array( 256 * 256 * 4 )
+            new Uint8Array( 128 * 128 * 4 )
           );
         gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
         gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
@@ -153,9 +153,9 @@ fn setup_webgl(canvas: &Element) -> Value {
         gl.bindBuffer( gl.ARRAY_BUFFER, vertex_buffer );
         var vertices = [
             0.0, 0.0,
-            0.0, 240.0,
-            256.0, 0.0,
-            256.0, 240.0
+            0.0, 128.0,
+            128.0, 0.0,
+            128.0, 128.0
         ];
         gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
         gl.vertexAttribPointer( vertex_attr, 2, gl.FLOAT, false, 0, 0 );
@@ -164,9 +164,9 @@ fn setup_webgl(canvas: &Element) -> Value {
         gl.bindBuffer( gl.ARRAY_BUFFER, texcoord_buffer );
         var texcoords = [
             0.0, 0.0,
-            0.0, 240.0 / 256.0,
+            0.0, 128.0 / 128.0,
             1.0, 0.0,
-            1.0, 240.0 / 256.0
+            1.0, 128.0 / 128.0
         ];
         gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( texcoords ), gl.STATIC_DRAW );
         gl.vertexAttribPointer( texcoord_attr, 2, gl.FLOAT, false, 0, 0 );
@@ -181,7 +181,7 @@ fn setup_webgl(canvas: &Element) -> Value {
 
         gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
         gl.enable( gl.DEPTH_TEST );
-        gl.viewport( 0, 0, 256, 240 );
+        gl.viewport( 0, 0, 128, 128 );
 
         return gl;
     )
@@ -216,7 +216,7 @@ impl PinkyWeb {
                 canvas = new_canvas;
 
                 h.ctx = canvas.getContext( "2d" );
-                h.img = h.ctx.createImageData( 256, 240 );
+                h.img = h.ctx.createImageData( 128, 128 );
                 h.buffer = new Uint32Array( h.img.data.buffer );
             }
 
@@ -283,7 +283,7 @@ impl PinkyWeb {
                         framebuffer.byteLength
                     );
                     h.gl.texSubImage2D( h.gl.TEXTURE_2D,
-                         0, 0, 0, 256, 240, h.gl.RGBA, h.gl.UNSIGNED_BYTE, data );
+                         0, 0, 0, 128, 128, h.gl.RGBA, h.gl.UNSIGNED_BYTE, data );
                     h.gl.drawElements( h.gl.TRIANGLES, 6, h.gl.UNSIGNED_SHORT, 0 );
                 } else {
                     h.buffer.set( framebuffer );

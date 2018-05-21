@@ -1,6 +1,6 @@
 //in pixels
-pub const SCREEN_WIDTH: usize = 256;
-pub const SCREEN_HEIGHT: usize = 240;
+pub const SCREEN_WIDTH: usize = 128;
+pub const SCREEN_HEIGHT: usize = 128;
 pub const SCREEN_LENGTH: usize = SCREEN_WIDTH * SCREEN_HEIGHT;
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
