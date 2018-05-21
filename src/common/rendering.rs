@@ -1,4 +1,3 @@
-use colours::{BLACK, BLUE, GREEN, GREY, PURPLE, RED, WHITE, YELLOW};
 use inner_common::*;
 
 pub struct Framebuffer {
@@ -390,35 +389,21 @@ impl Framebuffer {
 impl Default for Framebuffer {
     fn default() -> Self {
         let mut buffer = Vec::new();
-        buffer.resize(SCREEN_WIDTH * SCREEN_HEIGHT, BLACK);
+        buffer.resize(SCREEN_WIDTH * SCREEN_HEIGHT, PALETTE[0]);
 
         Framebuffer { buffer }
-    }
-}
-
-#[inline]
-pub fn next_colour(colour: u32) -> u32 {
-    match colour {
-        BLUE => GREEN,
-        GREEN => RED,
-        RED => YELLOW,
-        YELLOW => PURPLE,
-        PURPLE => GREY,
-        GREY => WHITE,
-        WHITE => BLACK,
-        BLACK => BLUE,
-        other => other,
     }
 }
 
 use std::cmp::min;
 
 pub fn draw_winning_screen(framebuffer: &mut Framebuffer) {
-    let mut colour = BLUE;
+    let mut colour_index = 8;
     let mut w = SCREEN_WIDTH;
     let mut h = SCREEN_HEIGHT;
 
     for corner in 0..(min(SCREEN_WIDTH, SCREEN_HEIGHT) - 80) / 2 {
+        let colour = PALETTE[colour_index];
         framebuffer.draw_rect(corner, corner, w, h, colour);
 
         if w > 2 {
@@ -428,6 +413,6 @@ pub fn draw_winning_screen(framebuffer: &mut Framebuffer) {
             h -= 2;
         }
 
-        colour = next_colour(colour);
+        colour_index = (colour_index + 1) & 0xF;
     }
 }
