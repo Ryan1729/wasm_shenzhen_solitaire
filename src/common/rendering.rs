@@ -402,7 +402,10 @@ pub fn draw_winning_screen(framebuffer: &mut Framebuffer) {
     let mut w = SCREEN_WIDTH;
     let mut h = SCREEN_HEIGHT;
 
-    for corner in 0..(min(SCREEN_WIDTH, SCREEN_HEIGHT) - 80) / 2 {
+    let smaller_side = min(SCREEN_WIDTH, SCREEN_HEIGHT);
+    let layers = (smaller_side - smaller_side / 3) / 2;
+
+    for corner in 0..layers {
         let colour = PALETTE[colour_index];
         framebuffer.draw_rect(corner, corner, w, h, colour);
 
