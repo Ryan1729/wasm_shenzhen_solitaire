@@ -1,6 +1,6 @@
 # WASM Shenzhen solitaire
 
-This is a port of [Hunter X](https://www.lexaloffle.com/bbs/?uid=26640)'s [pico-8 version](https://www.lexaloffle.com/bbs/?pid=46634&tid=30310) of [Zachtronic](www.zachtronics.com/)'s [Shenzhen Solitaire](http://store.steampowered.com/app/570490/SHENZHEN_SOLITAIRE/).
+This is a port of [Hunter X](https://www.lexaloffle.com/bbs/?uid=26640)'s [pico-8 version](https://www.lexaloffle.com/bbs/?pid=46634&tid=30310) of [Zachtronic](https://www.zachtronics.com)'s [Shenzhen Solitaire](http://store.steampowered.com/app/570490/SHENZHEN_SOLITAIRE/).
 
 ### Building (using Rust's native WebAssembly backend)
 
