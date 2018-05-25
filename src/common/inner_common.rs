@@ -23,7 +23,22 @@ pub const PALETTE: [u32; 16] = [
     0xffaaccff,
 ];
 
-pub struct GameState {}
+pub const MOVE_TIMER_MAX: u8 = 3;
+pub const START_OF_TABLEAU: u8 = 9;
+
+pub const CELLS_LEN: u8 = 16;
+
+pub struct GameState {
+    pub cells: [Vec<u8>; CELLS_LEN as usize],
+    pub wins: u8,
+    pub win_done: bool,
+    pub selectdrop: bool,
+    pub selectpos: u8,
+    pub selectdepth: u8,
+    pub grabpos: u8,
+    pub grabdepth: u8,
+    pub movetimer: u8,
+}
 
 pub const GFX_WIDTH: usize = 128;
 pub const GFX_HEIGHT: usize = 56;

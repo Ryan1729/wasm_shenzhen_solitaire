@@ -20,6 +20,8 @@ pub fn update_and_render(framebuffer: &mut Framebuffer, state: &mut GameState, i
     draw(framebuffer, &state);
 
     if input.pressed_this_frame(Button::A) {
-        console!(log, &framebuffer.buffer);
+        for cell in state.cells.iter() {
+            console!(log, cell);
+        }
     }
 }

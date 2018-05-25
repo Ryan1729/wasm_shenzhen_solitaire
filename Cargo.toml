@@ -9,6 +9,7 @@ serde_derive = "1"
 bitflags = "0.7"
 quickcheck = "0.6"
 stdweb = "0.4"
+rand = "0.4"
 
 
 [profile.dev]
