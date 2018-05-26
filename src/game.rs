@@ -88,18 +88,19 @@ fn update(state: &mut GameState, input: Input) {
 			} else if input.pressed_this_frame(Button::A) {
 				if state.selectpos == BUTTON_COLUMN {
 					if canmovedragons(state, state.selectdepth) {
-						movedragons(state, state.selectdepth);
+						movedragons(state);
 						state.selectdrop = false;
 						state.movetimer = MOVE_TIMER_MAX;
 					}
 				} else {
 					if state.selectdrop {
-						if candrop(state.grabpos, state.grabdepth, state.selectpos) {
-							movecards(state, state.grabpos, state.grabdepth, state.selectpos);
+						if candrop(&state.cells, state.grabpos, state.grabdepth, state.selectpos) {
+                            let GameState{grabpos, grabdepth, selectpos, ..} = state;
+							movecards(state, *grabpos, *grabdepth, *selectpos);
 							state.selectdrop = false;
 							state.movetimer = MOVE_TIMER_MAX;
 						}
-					} else if cangrab(state.selectpos, state.selectdepth) {
+					} else if cangrab(&state.cells, state.selectpos, state.selectdepth) {
 						state.grabpos = state.selectpos;
 						state.grabdepth = state.selectdepth;
 						state.selectdrop = true;
@@ -114,6 +115,103 @@ fn update(state: &mut GameState, input: Input) {
 	if haswon(state) && !state.win_done {
 		state.wins += 1;
 		state.win_done = true;
+	}
+}
+
+fn getselection(cells: &Cells, pos: u8, depth: u8) -> Vec<u8> {
+    let pos = pos as usize;
+    let depth = depth as usize;
+
+	let mut output = Vec::with_capacity(depth);
+	for i in 0..depth {
+		let index = cells[pos].len() - (depth + 1) + i;
+		output.push(cells[pos][index]);
+	}
+	return output;
+}
+
+fn cangrab(cells: &Cells, pos: u8, depth: u8) -> bool {
+	let selection = getselection(cells, pos, depth);
+
+	if selection.len() == 0
+    || (pos >= FLOWER_FOUNDATION && pos < START_OF_TABLEAU) {
+		return false;
+	}
+
+    let mut lastsuit = 255;
+    let mut lastnum = 255;
+    let mut first = true;
+
+	for &card in selection.iter() {
+        if card == CARD_BACK {
+			return false;
+		}
+
+		let suit = getsuit(card);
+		let num = getcardnum(card);
+
+        if !first {
+			if suit == lastsuit
+            || num == 0
+            || num != lastnum - 1 {
+				return false;
+			}
+		}
+		lastsuit = suit;
+		lastnum = num;
+		first = false;
+	}
+
+	return true;
+}
+
+fn candrop(cells: &Cells, grabpos: u8, grabdepth: u8, droppos: u8) -> bool {
+    let grabpos = grabpos as usize;
+    let grabdepth = grabdepth as usize;
+
+	let grabcard = {
+        let len = cells[grabpos].len();
+        if len < grabdepth {
+            return false;
+        }
+
+        cells[grabpos][len - grabdepth]
+    };
+
+	if droppos < BUTTON_COLUMN {
+		return cells[droppos as usize].len() == 0 && grabdepth == 0;
+	} else if droppos >= BUTTON_COLUMN && droppos <= FLOWER_FOUNDATION {
+		return false;
+	} else if droppos >= START_OF_FOUNDATIONS && droppos < START_OF_TABLEAU {
+        let droppos = droppos as usize;
+		if grabdepth == 0 {
+			if cells[droppos].len() == 0 {
+				if getcardnum(grabcard) == 1 {
+					return true;
+				}
+			} else {
+				let dropcard = last_unchecked!(cells[droppos]);
+				if getsuit(grabcard) == getsuit(dropcard)
+				&& getcardnum(grabcard) != 0
+				&& getcardnum(grabcard) == getcardnum(dropcard) + 1 {
+					return true;
+				}
+			}
+		}
+		return false;
+	} else {
+        let droppos = droppos as usize;
+		if cells[droppos].len() == 0 {
+			return true;
+		} else {
+			let dropcard = last_unchecked!(cells[droppos]);
+			if getsuit(grabcard) != getsuit(dropcard)
+			&& getcardnum(grabcard) != 0
+			&& getcardnum(grabcard) == getcardnum(dropcard) - 1 {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 
@@ -138,14 +236,16 @@ fn movecards(state: &mut GameState, grabpos: u8, grabdepth: u8, droppos: u8) {
     let grabdepth = grabdepth as usize;
     let droppos = droppos as usize;
 	if droppos <= 8 {
-		state.cells[droppos].insert(0, last_unchecked!(state.cells[grabpos]));
+        let last = last_unchecked!(state.cells[grabpos]);
+		state.cells[droppos].insert(0, last);
 		for i in state.cells[grabpos].len()..=state.cells[grabpos].len()-grabdepth {
 			state.cells[grabpos].remove(i);
 		}
 	} else {
 		for i in state.cells[grabpos].len()-grabdepth..=state.cells[grabpos].len() {
             let i = i as usize;
-			state.cells[droppos].push(state.cells[grabpos].remove(i));
+            let removed = state.cells[grabpos].remove(i);
+			state.cells[droppos].push(removed);
 		}
 	}
 }
@@ -173,7 +273,8 @@ fn canmovedragons(state: &GameState, suit: u8) -> bool {
 	return false;
 }
 
-fn movedragons(state: &mut GameState, suit: u8) {
+fn movedragons(state: &mut GameState) {
+    let suit = state.selectpos;
 	let mut moveto = None;
 
 	for i in 0..BUTTON_COLUMN {
@@ -219,20 +320,24 @@ fn haswon(state: &GameState) -> bool {
 }
 
 fn automove(state: &mut GameState) -> bool {
-	let mut minfval = None;
+    let min_free_card_num = {
+        let mut min_foundation_card_num = None;
 
-	for i in START_OF_FOUNDATIONS..START_OF_TABLEAU {
-        let i = i as usize;
-		let val = if state.cells[i].len() > 0 {
-			let card = last_unchecked!(state.cells[i]);
-			getcardnum(card)
-		} else {
-            0
-        };
-		if minfval.map(|v| val < v).unwrap_or(true) {
-			minfval = Some(val);
-		}
-	}
+    	for i in START_OF_FOUNDATIONS..START_OF_TABLEAU {
+            let i = i as usize;
+    		let val = if state.cells[i].len() > 0 {
+    			let card = last_unchecked!(state.cells[i]);
+    			getcardnum(card)
+    		} else {
+                0
+            };
+    		if min_foundation_card_num.map(|v| val < v).unwrap_or(true) {
+    			min_foundation_card_num = Some(val);
+    		}
+    	}
+
+        min_foundation_card_num.unwrap_or(255).wrapping_add(1)
+    };
 
 	for i in 0..=CELLS_MAX_INDEX {
 		if (i < BUTTON_COLUMN || i >= START_OF_TABLEAU)
@@ -241,11 +346,12 @@ fn automove(state: &mut GameState) -> bool {
 			if card == FLOWER_CARD {
 				movecards(state, i, 0, FLOWER_FOUNDATION);
 				return true;
-			} else if getcardnum(card) == minfval.unwrap_or(255).wrapping_add(1) && card != CARD_BACK {
+			} else if getcardnum(card) == min_free_card_num && card != CARD_BACK {
+                let suit = getsuit(card);
 				for i2 in START_OF_FOUNDATIONS..START_OF_TABLEAU {
 					if state.cells[i2 as usize].len() > 0 {
 						let card2 = state.cells[i2 as usize].len() as u8;
-						if getsuit(card2) == getsuit(card) {
+						if getsuit(card2) == suit {
 							movecards(state, i, 0, i2);
 							return true;
 						}

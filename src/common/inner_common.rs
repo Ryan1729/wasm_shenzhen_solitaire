@@ -36,8 +36,10 @@ pub const FIRST_BLACK_CARD: u8 = 20;
 pub const FLOWER_CARD: u8 = 30;
 pub const CARD_BACK: u8 = 31;
 
+pub type Cells = [Vec<u8>; CELLS_MAX_INDEX as usize + 1];
+
 pub struct GameState {
-    pub cells: [Vec<u8>; CELLS_MAX_INDEX as usize + 1],
+    pub cells: Cells,
     pub wins: u8,
     pub win_done: bool,
     pub selectdrop: bool,
