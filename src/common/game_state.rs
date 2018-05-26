@@ -38,7 +38,7 @@ impl GameState {
             let index = rng.gen_range(0, deck.len());
             cells[deckpos as usize].push(deck.swap_remove(index));
 
-            deckpos = if deckpos >= CELLS_LEN - 1 {
+            deckpos = if deckpos >= CELLS_MAX_INDEX {
                 START_OF_TABLEAU
             } else {
                 deckpos + 1

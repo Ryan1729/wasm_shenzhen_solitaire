@@ -24,12 +24,20 @@ pub const PALETTE: [u32; 16] = [
 ];
 
 pub const MOVE_TIMER_MAX: u8 = 3;
-pub const START_OF_TABLEAU: u8 = 9;
 
-pub const CELLS_LEN: u8 = 16;
+pub const BUTTON_COLUMN: u8 = 3;
+pub const FLOWER_FOUNDATION: u8 = 4;
+pub const START_OF_FOUNDATIONS: u8 = 5;
+pub const START_OF_TABLEAU: u8 = 8;
+pub const CELLS_MAX_INDEX: u8 = 15;
+
+pub const FIRST_GREEN_CARD: u8 = 10;
+pub const FIRST_BLACK_CARD: u8 = 20;
+pub const FLOWER_CARD: u8 = 30;
+pub const CARD_BACK: u8 = 31;
 
 pub struct GameState {
-    pub cells: [Vec<u8>; CELLS_LEN as usize],
+    pub cells: [Vec<u8>; CELLS_MAX_INDEX as usize + 1],
     pub wins: u8,
     pub win_done: bool,
     pub selectdrop: bool,
