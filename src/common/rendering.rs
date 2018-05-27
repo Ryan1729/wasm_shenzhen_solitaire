@@ -466,6 +466,14 @@ impl Framebuffer {
         let (sprite_x, sprite_y) = get_sprite_xy(sprite_number);
         self.sspr_flip_both(sprite_x, sprite_y, 8, 8, x, y);
     }
+
+    pub fn draw_map(&mut self) {
+        for y in 0..MAP_HEIGHT {
+            for x in 0..MAP_WIDTH {
+                self.spr(MAP[x + y * MAP_WIDTH], x as u8 * 8, y as u8 * 8);
+            }
+        }
+    }
 }
 
 pub fn get_sprite_xy(sprite_number: u8) -> (u8, u8) {
