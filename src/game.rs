@@ -374,15 +374,156 @@ fn draw(framebuffer: &mut Framebuffer, state: &GameState) {
     framebuffer.clear();
     framebuffer.draw_map();
 
-    framebuffer.sspr(0, 8, 16, 24, 0, GFX_HEIGHT as u8);
+    // framebuffer.print("wins:", 11, 122, 7);
+    // framebuffer.print(&wins.to_string(), 35, 122, 7);
 
-    framebuffer.spr(7, 0, GFX_HEIGHT as u8 + 1);
-    framebuffer.spr_flip_both(7, 9, GFX_HEIGHT as u8 + 1 + 16);
+    if canmovedragons(state, 0) {
+       framebuffer.spr(56, 48, 16);
+   }
+    if canmovedragons(state, 1) {
+       framebuffer.spr(57, 48, 8);
+   }
+    if canmovedragons(state, 2) {
+       framebuffer.spr(58, 48, 0);
+   }
+
+    for i in 0..=CELLS_MAX_INDEX {
+       let (posx, posy) = get_card_pos(i);
+
+       drawcell(framebuffer, &state.cells[i as usize], posx, posy);
+   }
+
+   let selectpos = state.selectpos;
+   if state.selectdrop {
+       drawselect(framebuffer, &state.cells, state.grabpos, state.grabdepth, false);
+       if selectpos == 4 {
+           drawselectbutton(framebuffer, state);
+       } else if selectpos <= 8 {
+           drawselect(framebuffer, &state.cells, selectpos, state.selectdepth, true);
+       } else {
+           //drawselect(framebuffer, &state.cells, selectpos, -state.grabdepth - 1, true);
+           drawselect(framebuffer, &state.cells, selectpos, state.grabdepth, true);
+       }
+   } else if selectpos == 4 {
+       drawselectbutton(framebuffer, state);
+   } else {
+       drawselect(framebuffer, &state.cells, selectpos, state.selectdepth, false);
+   }
+
+
+    // framebuffer.sspr(0, 8, 16, 24, 0, GFX_HEIGHT as u8);
+    //
+    // framebuffer.spr(7, 0, GFX_HEIGHT as u8 + 1);
+    // framebuffer.spr_flip_both(7, 9, GFX_HEIGHT as u8 + 1 + 16);
+}
+
+fn drawcard(framebuffer: &mut Framebuffer, cardnum: u8, posx: u8, posy: u8){
+	if cardnum == CARD_BACK {
+		framebuffer.sspr(0, 32, 16, 24, posx, posy);
+		return;
+	}
+
+	framebuffer.sspr(0, 8, 16, 24, posx, posy);
+
+	let suit = getsuit(cardnum);
+	let num = getcardnum(cardnum);
+
+	if num == 0 {
+		let sprite =
+		if suit == 1 {
+			23
+		} else if suit == 2 {
+			39
+		} else if suit == 3 {
+			55
+		} else {
+            7
+        };
+
+		framebuffer.spr(sprite, posx, posy);
+		framebuffer.spr_flip_both(sprite, posx + 8, posy + 16);
+	} else {
+		let (suitcolor, sprite) =
+		if suit == 1 {
+			(3, 22)
+		}else if suit == 2 {
+			(0, 38)
+		} else {
+            (8, 6)
+        };
+
+		// framebuffer.print(num, posx + 3, posy + 3, suitcolor);
+		framebuffer.spr(sprite, posx + 4, posy + 8);
+		// framebuffer.print(num, posx + 10, posy + 16, suitcolor);
+	}
+}
+
+fn drawcell(framebuffer: &mut Framebuffer, cell: &Vec<u8>, posx: u8, posy: u8){
+	for (i, &card) in cell.iter().enumerate() {
+		drawcard(framebuffer, card, posx, posy + (i as u8 * 8))
+	}
+}
+
+fn drawselect(framebuffer: &mut Framebuffer, cells: &Cells, pos: u8, depth: u8, drop: bool){
+	let spritex = if drop {
+		32
+	} else {
+        16
+    };
+    let spritey = 32;
+
+    let (posx, mut posy) = get_card_pos(pos);
+
+    let len = cells[pos as usize].len() as u8;
+     if len > 0 {
+     	//posy = posy + ((len - max(depth, -1) - 1) * 8);
+    }
+
+     framebuffer.sspr(spritex, spritey, 16, 8, posx, posy);
+
+     let truedepth = if depth < 0 {
+     	//abs(depth) - 1
+        depth
+    } else {
+        depth
+    };
+     for _ in 0..truedepth {
+     	posy = posy + 8;
+     	framebuffer.sspr(spritex, spritey + 8, 16, 8, posx, posy);
+    }
+     posy = posy + 8;
+     framebuffer.sspr(spritex, spritey + 16, 16, 8, posx, posy);
+}
+
+fn drawselectbutton(framebuffer: &mut Framebuffer, state: &GameState){
+	let sprite = if state.selectdrop {
+		71
+	} else {
+        70
+    };
+
+	framebuffer.spr(sprite, 48, 16 - (state.selectdepth * 8));
+}
+
+fn get_card_pos(posx: u8) -> (u8,u8) {
+    let (mut posx, posy) = if posx > 8 {
+        (posx - 8, 24)
+    } else {
+        (posx, 0)
+    };
+
+    if posy == 0 && posx == 5 {
+        posx = 56;
+    } else {
+        posx = (posx - 1) * 16;
+    }
+
+    (posx, posy)
 }
 
 #[inline]
 pub fn update_and_render(framebuffer: &mut Framebuffer, state: &mut GameState, input: Input) {
-    //update(state, input);
+    update(state, input);
 
     draw(framebuffer, &state);
 
