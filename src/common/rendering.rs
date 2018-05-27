@@ -413,8 +413,11 @@ impl Framebuffer {
         for y in d_y..d_y_max {
             let mut current_s_x = s_x;
             for x in d_x..d_x_max {
-                self.buffer[x + y * D_WIDTH] =
-                    PALETTE[GFX[current_s_x + current_s_y * S_WIDTH] as usize];
+                let colour = GFX[current_s_x + current_s_y * S_WIDTH] as usize;
+                //make purple transparent
+                if colour != 2 {
+                    self.buffer[x + y * D_WIDTH] = PALETTE[colour];
+                }
                 current_s_x += 1;
             }
             current_s_y += 1;
@@ -449,8 +452,11 @@ impl Framebuffer {
         for y in d_y..d_y_max {
             let mut current_s_x = s_x + s_w - 1;
             for x in d_x..d_x_max {
-                self.buffer[x + y * D_WIDTH] =
-                    PALETTE[GFX[current_s_x + current_s_y * S_WIDTH] as usize];
+                let colour = GFX[current_s_x + current_s_y * S_WIDTH] as usize;
+                //make purple transparent
+                if colour != 2 {
+                    self.buffer[x + y * D_WIDTH] = PALETTE[colour];
+                }
                 current_s_x -= 1;
             }
             current_s_y -= 1;
