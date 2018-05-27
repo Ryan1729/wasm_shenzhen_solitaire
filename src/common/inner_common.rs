@@ -24,6 +24,7 @@ pub const PALETTE: [u32; 16] = [
 ];
 
 pub const MOVE_TIMER_MAX: u8 = 3;
+pub const MAX_SUIT_NUM: u8 = 9;
 
 pub const BUTTON_COLUMN: u8 = 3;
 pub const FLOWER_FOUNDATION: u8 = 4;

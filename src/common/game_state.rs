@@ -11,9 +11,8 @@ impl GameState {
         let mut cells: [Vec<u8>; 16] = Default::default();
 
         let mut deck = Vec::with_capacity(3 * (START_OF_TABLEAU as usize + 4) + 1);
-        let mut deckpos = START_OF_TABLEAU;
 
-        for i in 1..=START_OF_TABLEAU {
+        for i in 1..=MAX_SUIT_NUM {
             deck.push(i);
             deck.push(i + 10);
             deck.push(i + 20);
@@ -34,6 +33,7 @@ impl GameState {
         };
         let mut rng = rand::XorShiftRng::from_seed(seed);
 
+        let mut deckpos = START_OF_TABLEAU;
         while deck.len() > 0 {
             let index = rng.gen_range(0, deck.len());
             cells[deckpos as usize].push(deck.swap_remove(index));
