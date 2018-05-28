@@ -27,10 +27,14 @@ impl GameState {
         deck.push(30);
 
         let seed = unsafe {
-            let time = Date::new().get_time();
-
-            mem::transmute::<[f64; 2], [u32; 4]>([time, 1.0 / time])
+            // let time = Date::new().get_time();
+            //
+            // mem::transmute::<[f64; 2], [u32; 4]>([time, 1.0 / time])
+            //known non-bug seed
+            [593227776, 1115044417, 342636230, 1030162643]
         };
+
+        console!(log, format!("{:?}", seed));
         let mut rng = rand::XorShiftRng::from_seed(seed);
 
         let mut deckpos = START_OF_TABLEAU;
