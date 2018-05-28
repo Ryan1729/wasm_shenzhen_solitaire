@@ -527,7 +527,7 @@ fn get_card_pos(posx: u8) -> (u8, u8) {
         (posx, 0)
     };
 
-    posx = if posy == 0 && posx == BUTTON_COLUMN {
+    posx = if posy == 0 && posx == FLOWER_FOUNDATION {
         56
     } else {
         posx * 16
