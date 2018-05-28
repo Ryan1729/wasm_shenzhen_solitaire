@@ -506,17 +506,17 @@ fn drawselectbutton(framebuffer: &mut Framebuffer, state: &GameState){
 }
 
 fn get_card_pos(posx: u8) -> (u8,u8) {
-    let (mut posx, posy) = if posx > 8 {
-        (posx - 8, 24)
+    let (mut posx, posy) = if posx > END_OF_FOUNDATIONS {
+        (posx - END_OF_FOUNDATIONS, 24)
     } else {
         (posx, 0)
     };
 
-    if posy == 0 && posx == 5 {
-        posx = 56;
+    posx = if posy == 0 && posx == BUTTON_COLUMN {
+        56
     } else {
-        posx = (posx - 1) * 16;
-    }
+        posx * 16
+    };
 
     (posx, posy)
 }

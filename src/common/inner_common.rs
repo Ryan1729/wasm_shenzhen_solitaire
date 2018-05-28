@@ -29,6 +29,7 @@ pub const MAX_SUIT_NUM: u8 = 9;
 pub const BUTTON_COLUMN: u8 = 3;
 pub const FLOWER_FOUNDATION: u8 = 4;
 pub const START_OF_FOUNDATIONS: u8 = 5;
+pub const END_OF_FOUNDATIONS: u8 = 7;
 pub const START_OF_TABLEAU: u8 = 8;
 pub const CELLS_MAX_INDEX: u8 = 15;
 
