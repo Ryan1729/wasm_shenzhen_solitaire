@@ -539,7 +539,7 @@ fn get_card_pos(posx: u8) -> (u8, u8) {
 #[inline]
 pub fn update_and_render(framebuffer: &mut Framebuffer, state: &mut GameState, input: Input) {
     update(state, input);
-    
+
     draw(framebuffer, &state);
 
     if input.pressed_this_frame(Button::A) {

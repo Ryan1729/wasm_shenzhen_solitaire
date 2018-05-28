@@ -416,7 +416,10 @@ impl Framebuffer {
                 let colour = GFX[current_s_x + current_s_y * S_WIDTH] as usize;
                 //make purple transparent
                 if colour != 2 {
-                    self.buffer[x + y * D_WIDTH] = PALETTE[colour];
+                    let index = x + y * D_WIDTH;
+                    if index < self.buffer.len() {
+                        self.buffer[index] = PALETTE[colour];
+                    }
                 }
                 current_s_x += 1;
             }
@@ -455,7 +458,10 @@ impl Framebuffer {
                 let colour = GFX[current_s_x + current_s_y * S_WIDTH] as usize;
                 //make purple transparent
                 if colour != 2 {
-                    self.buffer[x + y * D_WIDTH] = PALETTE[colour];
+                    let index = x + y * D_WIDTH;
+                    if index < self.buffer.len() {
+                        self.buffer[index] = PALETTE[colour];
+                    }
                 }
                 current_s_x -= 1;
             }
