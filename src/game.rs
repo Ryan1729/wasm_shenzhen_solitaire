@@ -436,6 +436,8 @@ fn draw(framebuffer: &mut Framebuffer, state: &GameState) {
         );
     }
 
+    framebuffer.draw_font();
+
     // framebuffer.sspr(0, 8, 16, 24, 0, GFX_HEIGHT as u8);
     //
     // framebuffer.spr(7, 0, GFX_HEIGHT as u8 + 1);

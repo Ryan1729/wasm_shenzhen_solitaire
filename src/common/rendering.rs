@@ -486,6 +486,14 @@ impl Framebuffer {
             }
         }
     }
+
+    pub fn draw_font(&mut self) {
+        for y in 0..FONT_HEIGHT {
+            for x in 0..FONT_WIDTH {
+                self.buffer[x + y * SCREEN_WIDTH] = PALETTE[FONT[x + y * FONT_WIDTH] as usize];
+            }
+        }
+    }
 }
 
 pub fn get_sprite_xy(sprite_number: u8) -> (u8, u8) {
