@@ -382,8 +382,8 @@ fn draw(framebuffer: &mut Framebuffer, state: &GameState) {
     framebuffer.clear();
     framebuffer.draw_map();
 
-    // framebuffer.print("wins:", 11, 122, 7);
-    // framebuffer.print(&wins.to_string(), 35, 122, 7);
+    framebuffer.print("wins:", 11, 122, 7);
+    framebuffer.print(&state.wins.to_string(), 35, 122, 7);
 
     if canmovedragons(state, 0) {
         framebuffer.spr(56, 48, 16);
@@ -436,8 +436,6 @@ fn draw(framebuffer: &mut Framebuffer, state: &GameState) {
         );
     }
 
-    framebuffer.draw_font();
-
     // framebuffer.sspr(0, 8, 16, 24, 0, GFX_HEIGHT as u8);
     //
     // framebuffer.spr(7, 0, GFX_HEIGHT as u8 + 1);
@@ -477,9 +475,9 @@ fn drawcard(framebuffer: &mut Framebuffer, cardnum: u8, posx: u8, posy: u8) {
             (8, 6)
         };
 
-        // framebuffer.print(num, posx + 3, posy + 3, suitcolor);
+        framebuffer.print(&num.to_string(), posx + 3, posy + 3, suitcolor);
         framebuffer.spr(sprite, posx + 4, posy + 8);
-        // framebuffer.print(num, posx + 10, posy + 16, suitcolor);
+        framebuffer.print(&num.to_string(), posx + 10, posy + 16, suitcolor);
     }
 }
 

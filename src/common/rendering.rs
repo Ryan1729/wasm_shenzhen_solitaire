@@ -487,17 +487,68 @@ impl Framebuffer {
         }
     }
 
-    pub fn draw_font(&mut self) {
-        for y in 0..FONT_HEIGHT {
-            for x in 0..FONT_WIDTH {
-                self.buffer[x + y * SCREEN_WIDTH] = PALETTE[FONT[x + y * FONT_WIDTH] as usize];
+    pub fn print(&mut self, string: &str, x: u8, y: u8, colour: u8) {
+        for c in string.bytes() {
+            let (sprite_x, sprite_y) = get_char_xy(c);
+            self.print_char(sprite_x, sprite_y, 8, 8, x, y, colour);
+        }
+    }
+
+    fn print_char(
+        &mut self,
+        sprite_x: u8,
+        sprite_y: u8,
+        sprite_w: u8,
+        sprite_h: u8,
+        display_x: u8,
+        display_y: u8,
+        colour: u8,
+    ) {
+        const S_WIDTH: usize = FONT_WIDTH as usize;
+        const D_WIDTH: usize = SCREEN_WIDTH as usize;
+
+        let s_w = sprite_w as usize;
+        let s_h = sprite_h as usize;
+
+        let s_x = sprite_x as usize;
+        let s_y = sprite_y as usize;
+
+        let d_x = display_x as usize;
+        let d_y = display_y as usize;
+
+        let d_x_max = d_x + s_w;
+        let d_y_max = d_y + s_h;
+
+        let mut current_s_y = s_y;
+        for y in d_y..d_y_max {
+            let mut current_s_x = s_x;
+            for x in d_x..d_x_max {
+                let foxt_pixel_colour = FONT[current_s_x + current_s_y * S_WIDTH] as usize;
+                //make black transparent
+                if foxt_pixel_colour != 0 {
+                    let index = x + y * D_WIDTH;
+                    if index < self.buffer.len() {
+                        self.buffer[index] = PALETTE[colour as usize & 15];
+                    }
+                }
+                current_s_x += 1;
             }
+            current_s_y += 1;
         }
     }
 }
 
 pub fn get_sprite_xy(sprite_number: u8) -> (u8, u8) {
     const SPRITES_PER_ROW: u8 = GFX_WIDTH as u8 / 8;
+
+    (
+        (sprite_number % SPRITES_PER_ROW) * 8,
+        (sprite_number / SPRITES_PER_ROW) * 8,
+    )
+}
+
+pub fn get_char_xy(sprite_number: u8) -> (u8, u8) {
+    const SPRITES_PER_ROW: u8 = FONT_WIDTH as u8 / 8;
 
     (
         (sprite_number % SPRITES_PER_ROW) * 8,
