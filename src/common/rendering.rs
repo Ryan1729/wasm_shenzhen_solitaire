@@ -487,10 +487,11 @@ impl Framebuffer {
         }
     }
 
-    pub fn print(&mut self, string: &str, x: u8, y: u8, colour: u8) {
+    pub fn print(&mut self, string: &str, mut x: u8, y: u8, colour: u8) {
         for c in string.bytes() {
             let (sprite_x, sprite_y) = get_char_xy(c);
             self.print_char(sprite_x, sprite_y, 8, 8, x, y, colour);
+            x = x.saturating_add(4);
         }
     }
 
