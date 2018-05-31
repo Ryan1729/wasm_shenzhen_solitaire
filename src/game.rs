@@ -18,6 +18,7 @@ fn update(state: &mut GameState, input: Input) {
             state.movetimer = MOVE_TIMER_MAX;
         } else {
             if input.pressed_this_frame(Button::Left) {
+                console!(log, "Button::Left");
                 let oldinv = max(
                     1,
                     state.cells[state.selectpos as usize].len() as u8 - state.selectdepth,
@@ -36,6 +37,7 @@ fn update(state: &mut GameState, input: Input) {
                     min(max(0, len - oldinv), len)
                 };
             } else if input.pressed_this_frame(Button::Right) {
+                console!(log, "Button::Right");
                 let oldinv = max(
                     1,
                     state.cells[state.selectpos as usize].len() as u8 - state.selectdepth,
@@ -54,6 +56,7 @@ fn update(state: &mut GameState, input: Input) {
                     min(max(0, len - oldinv), len)
                 };
             } else if input.pressed_this_frame(Button::Up) {
+                console!(log, "Button::Up");
                 let changepos = if state.selectpos == BUTTON_COLUMN {
                     state.selectdepth >= 2
                 } else {
@@ -62,7 +65,7 @@ fn update(state: &mut GameState, input: Input) {
                 };
 
                 if changepos {
-                    state.selectpos = if state.selectpos > START_OF_TABLEAU {
+                    state.selectpos = if state.selectpos > END_OF_FOUNDATIONS {
                         state.selectpos - START_OF_TABLEAU
                     } else {
                         state.selectpos + START_OF_TABLEAU
@@ -72,8 +75,9 @@ fn update(state: &mut GameState, input: Input) {
                     state.selectdepth += 1;
                 }
             } else if input.pressed_this_frame(Button::Down) {
+                console!(log, "Button::Down");
                 if state.selectdepth == 0 {
-                    state.selectpos = if state.selectpos > START_OF_TABLEAU {
+                    state.selectpos = if state.selectpos > END_OF_FOUNDATIONS {
                         state.selectpos - START_OF_TABLEAU
                     } else {
                         state.selectpos + START_OF_TABLEAU
@@ -90,6 +94,7 @@ fn update(state: &mut GameState, input: Input) {
                     state.selectdepth = state.selectdepth - 1;
                 }
             } else if input.pressed_this_frame(Button::A) {
+                console!(log, "Button::A");
                 if state.selectpos == BUTTON_COLUMN {
                     if canmovedragons(state, state.selectdepth) {
                         movedragons(state);
@@ -121,6 +126,7 @@ fn update(state: &mut GameState, input: Input) {
                     }
                 }
             } else if input.pressed_this_frame(Button::B) {
+                console!(log, "Button::B");
                 state.selectdrop = false;
             }
         }
@@ -435,11 +441,6 @@ fn draw(framebuffer: &mut Framebuffer, state: &GameState) {
             false,
         );
     }
-
-    // framebuffer.sspr(0, 8, 16, 24, 0, GFX_HEIGHT as u8);
-    //
-    // framebuffer.spr(7, 0, GFX_HEIGHT as u8 + 1);
-    // framebuffer.spr_flip_both(7, 9, GFX_HEIGHT as u8 + 1 + 16);
 }
 
 fn drawcard(framebuffer: &mut Framebuffer, cardnum: u8, posx: u8, posy: u8) {
