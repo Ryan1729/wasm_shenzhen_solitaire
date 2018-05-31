@@ -507,7 +507,7 @@ fn drawselect(framebuffer: &mut Framebuffer, cells: &Cells, pos: u8, depth: u8, 
     } else {
         depth
     };
-    for _ in 0..truedepth {
+    for _ in 0..=truedepth {
         posy = posy + 8;
         framebuffer.sspr(spritex, spritey + 8, 16, 8, posx, posy);
     }
