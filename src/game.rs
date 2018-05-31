@@ -413,7 +413,7 @@ fn draw(framebuffer: &mut Framebuffer, state: &GameState) {
             framebuffer,
             &state.cells,
             state.grabpos,
-            state.grabdepth,
+            state.grabdepth as i8,
             false,
         );
         if selectpos == BUTTON_COLUMN {
@@ -423,12 +423,11 @@ fn draw(framebuffer: &mut Framebuffer, state: &GameState) {
                 framebuffer,
                 &state.cells,
                 selectpos,
-                state.selectdepth,
+                state.selectdepth as i8,
                 true,
             );
         } else {
-            //drawselect(framebuffer, &state.cells, selectpos, -state.grabdepth - 1, true);
-            drawselect(framebuffer, &state.cells, selectpos, state.grabdepth, true);
+            drawselect(framebuffer, &state.cells, selectpos, -(state.grabdepth as i8) - 1, true);
         }
     } else if selectpos == BUTTON_COLUMN {
         drawselectbutton(framebuffer, state);
@@ -437,7 +436,7 @@ fn draw(framebuffer: &mut Framebuffer, state: &GameState) {
             framebuffer,
             &state.cells,
             selectpos,
-            state.selectdepth,
+            state.selectdepth as i8,
             false,
         );
     }
@@ -488,7 +487,7 @@ fn drawcell(framebuffer: &mut Framebuffer, cell: &Vec<u8>, posx: u8, posy: u8) {
     }
 }
 
-fn drawselect(framebuffer: &mut Framebuffer, cells: &Cells, pos: u8, depth: u8, drop: bool) {
+fn drawselect(framebuffer: &mut Framebuffer, cells: &Cells, pos: u8, depth: i8, drop: bool) {
     let spritex = if drop { 32 } else { 16 };
     let spritey = 32;
 
@@ -496,14 +495,13 @@ fn drawselect(framebuffer: &mut Framebuffer, cells: &Cells, pos: u8, depth: u8, 
 
     let len = cells[pos as usize].len() as u8;
     if len > 0 {
-        //posy = posy + ((len - max(depth, -1) - 1) * 8);
+        posy = (posy as i8 + ((len as i8 - max(depth, -1) - 1) * 8)) as u8;
     }
 
     framebuffer.sspr(spritex, spritey, 16, 8, posx, posy);
 
     let truedepth = if depth < 0 {
-        //abs(depth) - 1
-        depth
+        i8::abs(depth) - 1
     } else {
         depth
     };

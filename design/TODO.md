@@ -1,5 +1,3 @@
 * fix cursor bugs
-    * cursor not being card shaped
-    * cursor acting weird on buttons
-    * selectdepth reversal
+    * selection not displaying and/or working correctly
 * optional: Refactor code to be more "rustic".
