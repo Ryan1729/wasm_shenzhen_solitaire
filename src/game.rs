@@ -416,7 +416,7 @@ fn draw(framebuffer: &mut Framebuffer, state: &GameState) {
             state.grabdepth,
             false,
         );
-        if selectpos == 4 {
+        if selectpos == BUTTON_COLUMN {
             drawselectbutton(framebuffer, state);
         } else if selectpos <= 8 {
             drawselect(
@@ -430,7 +430,7 @@ fn draw(framebuffer: &mut Framebuffer, state: &GameState) {
             //drawselect(framebuffer, &state.cells, selectpos, -state.grabdepth - 1, true);
             drawselect(framebuffer, &state.cells, selectpos, state.grabdepth, true);
         }
-    } else if selectpos == 4 {
+    } else if selectpos == BUTTON_COLUMN {
         drawselectbutton(framebuffer, state);
     } else {
         drawselect(
