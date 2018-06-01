@@ -102,7 +102,9 @@ fn update(state: &mut GameState, input: Input) {
                         state.movetimer = MOVE_TIMER_MAX;
                     }
                 } else {
+                    console!(log, "if state.selectdrop {");
                     if state.selectdrop {
+                        console!(log, "state.selectdrop");
                         if candrop(
                             &state.cells,
                             state.grabpos,
@@ -115,6 +117,9 @@ fn update(state: &mut GameState, input: Input) {
                                 selectpos,
                                 ..
                             } = state;
+                            console!(log, *grabpos,
+                            *grabdepth,
+                            *selectpos);
                             movecards(state, *grabpos, *grabdepth, *selectpos);
                             state.selectdrop = false;
                             state.movetimer = MOVE_TIMER_MAX;
@@ -185,14 +190,14 @@ fn cangrab(cells: &Cells, pos: u8, depth: u8) -> bool {
 fn candrop(cells: &Cells, grabpos: u8, grabdepth: u8, droppos: u8) -> bool {
     let grabpos = grabpos as usize;
     let grabdepth = grabdepth as usize;
-
+    console!(log, grabpos.to_string(), grabdepth.to_string(), droppos.to_string());
     let grabcard = {
         let len = cells[grabpos].len();
         if len < grabdepth {
             return false;
         }
 
-        cells[grabpos][len - grabdepth]
+        cells[grabpos][len - 1 - grabdepth]
     };
 
     if droppos < BUTTON_COLUMN {
