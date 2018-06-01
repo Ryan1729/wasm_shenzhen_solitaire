@@ -143,8 +143,8 @@ fn getselection(cells: &Cells, pos: u8, depth: u8) -> Vec<u8> {
     let depth = depth as usize;
 
     let mut output = Vec::with_capacity(depth);
-    for i in 0..depth {
-        let index = cells[pos].len() - (depth + 1) + i;
+    for i in 1..=depth + 1 {
+        let index = cells[pos].len() - (depth + 1) + i - 1;
         output.push(cells[pos][index]);
     }
     return output;
@@ -152,7 +152,7 @@ fn getselection(cells: &Cells, pos: u8, depth: u8) -> Vec<u8> {
 
 fn cangrab(cells: &Cells, pos: u8, depth: u8) -> bool {
     let selection = getselection(cells, pos, depth);
-
+    console!(log, format!("{:?}", selection));
     if selection.len() == 0 || (pos >= FLOWER_FOUNDATION && pos < START_OF_TABLEAU) {
         return false;
     }
@@ -541,7 +541,7 @@ pub fn update_and_render(framebuffer: &mut Framebuffer, state: &mut GameState, i
 
     draw(framebuffer, &state);
 
-    if input.pressed_this_frame(Button::A) {
+    if input.pressed_this_frame(Button::Select) {
         for cell in state.cells.iter() {
             console!(log, cell);
         }
