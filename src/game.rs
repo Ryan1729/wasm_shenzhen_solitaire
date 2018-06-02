@@ -117,7 +117,7 @@ fn update(state: &mut GameState, input: Input) {
                                 selectpos,
                                 ..
                             } = state;
-                            console!(log, *grabpos,
+                            console!(log, "we can drop", *grabpos,
                             *grabdepth,
                             *selectpos);
                             movecards(state, *grabpos, *grabdepth, *selectpos);
@@ -261,13 +261,18 @@ fn movecards(state: &mut GameState, grabpos: u8, grabdepth: u8, droppos: u8) {
     let droppos = droppos as usize;
     if droppos <= END_OF_FOUNDATIONS as usize {
         if let Some(last) = state.cells[grabpos].pop() {
-            state.cells[droppos].insert(0, last);
+            if state.cells[droppos].len() > 0 {
+                state.cells[droppos][0] = last;
+            } else {
+                state.cells[droppos].push(last);
+            }
         }
     } else {
-        for i in state.cells[grabpos].len() - grabdepth..=state.cells[grabpos].len() {
-            let removed = state.cells[grabpos].remove(i);
-            state.cells[droppos].push(removed);
-        }
+        let len = state.cells[grabpos].len();
+
+        let temp: Vec<_> = state.cells[grabpos].drain(len - 1 - grabdepth..).collect();
+
+        state.cells[droppos].extend(temp.into_iter());
     }
 }
 
