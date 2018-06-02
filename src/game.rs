@@ -34,8 +34,8 @@ fn update(state: &mut GameState, input: Input) {
                     0
                 } else {
                     let len = state.cells[state.selectpos as usize].len() as u8;
-                    min(max(0, len - oldinv), len)
-                };
+                    min(max(0, len - oldinv), len - 1)
+                };;
             } else if input.pressed_this_frame(Button::Right) {
                 console!(log, "Button::Right");
                 let oldinv = max(
@@ -53,7 +53,7 @@ fn update(state: &mut GameState, input: Input) {
                     0
                 } else {
                     let len = state.cells[state.selectpos as usize].len() as u8;
-                    min(max(0, len - oldinv), len)
+                    min(max(0, len - oldinv), len - 1)
                 };
             } else if input.pressed_this_frame(Button::Up) {
                 console!(log, "Button::Up");
@@ -102,9 +102,7 @@ fn update(state: &mut GameState, input: Input) {
                         state.movetimer = MOVE_TIMER_MAX;
                     }
                 } else {
-                    console!(log, "if state.selectdrop {");
                     if state.selectdrop {
-                        console!(log, "state.selectdrop");
                         if candrop(
                             &state.cells,
                             state.grabpos,
@@ -117,9 +115,6 @@ fn update(state: &mut GameState, input: Input) {
                                 selectpos,
                                 ..
                             } = state;
-                            console!(log, "we can drop", *grabpos,
-                            *grabdepth,
-                            *selectpos);
                             movecards(state, *grabpos, *grabdepth, *selectpos);
                             state.selectdrop = false;
                             state.movetimer = MOVE_TIMER_MAX;
@@ -157,7 +152,6 @@ fn getselection(cells: &Cells, pos: u8, depth: u8) -> Vec<u8> {
 
 fn cangrab(cells: &Cells, pos: u8, depth: u8) -> bool {
     let selection = getselection(cells, pos, depth);
-    console!(log, format!("{:?}", selection));
     if selection.len() == 0 || (pos >= FLOWER_FOUNDATION && pos < START_OF_TABLEAU) {
         return false;
     }
@@ -190,7 +184,6 @@ fn cangrab(cells: &Cells, pos: u8, depth: u8) -> bool {
 fn candrop(cells: &Cells, grabpos: u8, grabdepth: u8, droppos: u8) -> bool {
     let grabpos = grabpos as usize;
     let grabdepth = grabdepth as usize;
-    console!(log, grabpos.to_string(), grabdepth.to_string(), droppos.to_string());
     let grabcard = {
         let len = cells[grabpos].len();
         if len < grabdepth {
