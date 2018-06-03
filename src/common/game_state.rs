@@ -27,15 +27,14 @@ impl GameState {
         deck.push(30);
 
         let seed = unsafe {
-            // let time = Date::new().get_time();
-            //
-            // mem::transmute::<[f64; 2], [u32; 4]>([time, 1.0 / time])
+            let time = Date::new().get_time();
 
+            mem::transmute::<[f64; 2], [u32; 4]>([time, 1.0 / time])
             //known non-autoplay seed
             //[593227776, 1115044417, 342636230, 1030162643]
 
             //known autoplay seed
-            [614731776, 1115044419, 8528335, 1030162641]
+            //[614731776, 1115044419, 8528335, 1030162641]
         };
 
         console!(log, format!("{:?}", seed));

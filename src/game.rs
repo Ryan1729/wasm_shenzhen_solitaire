@@ -18,7 +18,7 @@ fn update(state: &mut GameState, input: Input) {
             state.movetimer = MOVE_TIMER_MAX;
         } else {
             if input.pressed_this_frame(Button::Left) {
-                console!(log, "Button::Left");
+
                 state.selectpos = if state.selectpos == 0 {
                     START_OF_TABLEAU - 1
                 } else if state.selectpos == START_OF_TABLEAU {
@@ -34,7 +34,7 @@ fn update(state: &mut GameState, input: Input) {
                     min(max(0, state.selectdepth), len - 1)
                 };
             } else if input.pressed_this_frame(Button::Right) {
-                console!(log, "Button::Right");
+
                 state.selectpos = if state.selectpos == START_OF_TABLEAU - 1 {
                     0
                 } else if state.selectpos >= CELLS_MAX_INDEX {
@@ -50,7 +50,7 @@ fn update(state: &mut GameState, input: Input) {
                     min(max(0, state.selectdepth), len - 1)
                 };
             } else if input.pressed_this_frame(Button::Up) {
-                console!(log, "Button::Up");
+
                 let changepos = if state.selectpos == BUTTON_COLUMN {
                     state.selectdepth >= 2
                 } else {
@@ -69,7 +69,7 @@ fn update(state: &mut GameState, input: Input) {
                     state.selectdepth += 1;
                 }
             } else if input.pressed_this_frame(Button::Down) {
-                console!(log, "Button::Down");
+
                 if state.selectdepth == 0 {
                     state.selectpos = if state.selectpos > END_OF_FOUNDATIONS {
                         state.selectpos - START_OF_TABLEAU
@@ -88,7 +88,7 @@ fn update(state: &mut GameState, input: Input) {
                     state.selectdepth = state.selectdepth - 1;
                 }
             } else if input.pressed_this_frame(Button::A) {
-                console!(log, "Button::A");
+
                 if state.selectpos == BUTTON_COLUMN {
                     if canmovedragons(state, state.selectdepth) {
                         movedragons(state);
@@ -120,15 +120,25 @@ fn update(state: &mut GameState, input: Input) {
                     }
                 }
             } else if input.pressed_this_frame(Button::B) {
-                console!(log, "Button::B");
+
                 state.selectdrop = false;
             }
         }
     }
 
-    if haswon(state) && !state.win_done {
-        state.wins += 1;
-        state.win_done = true;
+    if haswon(state) {
+        if state.win_done {
+            if input.pressed_this_frame(Button::Start) {
+                let wins = state.wins;
+
+                *state = GameState::new();
+
+                state.wins = wins;
+            }
+        } else {
+            state.wins += 1;
+            state.win_done = true;
+        }
     }
 }
 
@@ -537,10 +547,4 @@ pub fn update_and_render(framebuffer: &mut Framebuffer, state: &mut GameState, i
     update(state, input);
 
     draw(framebuffer, &state);
-
-    if input.pressed_this_frame(Button::Select) {
-        for cell in state.cells.iter() {
-            console!(log, cell);
-        }
-    }
 }

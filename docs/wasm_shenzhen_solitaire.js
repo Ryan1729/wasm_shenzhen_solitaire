@@ -434,77 +434,86 @@ Module.STDWEB_PRIVATE.acquire_tmp = function( dummy ) {
 
     const __imports = {
         env: {
-            "__extjs_db0226ae1bbecd407e9880ee28ddc70fc3322d9c": function($0) {
-                $0 = Module.STDWEB_PRIVATE.to_js($0);Module.STDWEB_PRIVATE.unregister_raw_value (($0));
-            },
-            "__extjs_9f22d4ca7bc938409787341b7db181f8dd41e6df": function($0) {
-                Module.STDWEB_PRIVATE.increment_refcount( $0 );
-            },
-            "__extjs_34c25e83c972a5fc9ab25576841f95bb358735cf": function($0, $1, $2, $3, $4) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);$4 = Module.STDWEB_PRIVATE.to_js($4);Module.STDWEB_PRIVATE.from_js($0, (function(){var gl ; var webgl_names = ["webgl" , "experimental-webgl" , "webkit-3d" , "moz-webgl"]; for (var i = 0 ; i < webgl_names.length ; ++i){var name = webgl_names [i]; try {gl = ($1). getContext (name);}catch (err){}if (gl){console.log ("WebGL support using context:" , name); break ;}}if (gl ===null){console.error ("WebGL rendering context not found."); return null ;}var vertex_shader = gl.createShader (gl.VERTEX_SHADER); var fragment_shader = gl.createShader (gl.FRAGMENT_SHADER); gl.shaderSource (vertex_shader , ($2)); gl.shaderSource (fragment_shader , ($3)); gl.compileShader (vertex_shader); gl.compileShader (fragment_shader); if (! gl.getShaderParameter (vertex_shader , gl.COMPILE_STATUS)){console.error ("WebGL vertex shader compilation failed:" , gl.getShaderInfoLog (vertex_shader)); return null ;}if (! gl.getShaderParameter (fragment_shader , gl.COMPILE_STATUS)){console.error ("WebGL fragment shader compilation failed:" , gl.getShaderInfoLog (fragment_shader)); return null ;}var program = gl.createProgram (); gl.attachShader (program , vertex_shader); gl.attachShader (program , fragment_shader); gl.linkProgram (program); if (! gl.getProgramParameter (program , gl.LINK_STATUS)){console.error ("WebGL program linking failed!"); return null ;}gl.useProgram (program); var vertex_attr = gl.getAttribLocation (program , "a_position"); var texcoord_attr = gl.getAttribLocation (program , "a_texcoord"); gl.enableVertexAttribArray (vertex_attr); gl.enableVertexAttribArray (texcoord_attr); var sampler_uniform = gl.getUniformLocation (program , "u_sampler"); gl.uniform1i (sampler_uniform , 0); var matrix = ($4); var matrix_uniform = gl.getUniformLocation (program , "u_matrix"); gl.uniformMatrix4fv (matrix_uniform , false , matrix); var texture = gl.createTexture (); gl.bindTexture (gl.TEXTURE_2D , texture); gl.texImage2D (gl.TEXTURE_2D , 0 , gl.RGBA , 128 , 128 , 0 , gl.RGBA , gl.UNSIGNED_BYTE , new Uint8Array (128 * 128 * 4)); gl.texParameteri (gl.TEXTURE_2D , gl.TEXTURE_MAG_FILTER , gl.NEAREST); gl.texParameteri (gl.TEXTURE_2D , gl.TEXTURE_MIN_FILTER , gl.NEAREST); var vertex_buffer = gl.createBuffer (); gl.bindBuffer (gl.ARRAY_BUFFER , vertex_buffer); var vertices = [0.0 , 0.0 , 0.0 , 128.0 , 128.0 , 0.0 , 128.0 , 128.0]; gl.bufferData (gl.ARRAY_BUFFER , new Float32Array (vertices), gl.STATIC_DRAW); gl.vertexAttribPointer (vertex_attr , 2 , gl.FLOAT , false , 0 , 0); var texcoord_buffer = gl.createBuffer (); gl.bindBuffer (gl.ARRAY_BUFFER , texcoord_buffer); var texcoords = [0.0 , 0.0 , 0.0 , 128.0 / 128.0 , 1.0 , 0.0 , 1.0 , 128.0 / 128.0]; gl.bufferData (gl.ARRAY_BUFFER , new Float32Array (texcoords), gl.STATIC_DRAW); gl.vertexAttribPointer (texcoord_attr , 2 , gl.FLOAT , false , 0 , 0); var index_buffer = gl.createBuffer (); gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER , index_buffer); var indices = [0 , 1 , 2 , 2 , 3 , 1]; gl.bufferData (gl.ELEMENT_ARRAY_BUFFER , new Uint16Array (indices), gl.STATIC_DRAW); gl.clearColor (0.0 , 0.0 , 0.0 , 1.0); gl.enable (gl.DEPTH_TEST); gl.viewport (0 , 0 , 128 , 128); return gl ;})());
-            },
-            "__extjs_9eaf977ac8c385be0e5011091e8c083e9ceafb33": function($0, $1, $2) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){var h = ($1); var framebuffer = ($2); if (h.gl){var data = new Uint8Array (framebuffer.buffer , framebuffer.byteOffset , framebuffer.byteLength); h.gl.texSubImage2D (h.gl.TEXTURE_2D , 0 , 0 , 0 , 128 , 128 , h.gl.RGBA , h.gl.UNSIGNED_BYTE , data); h.gl.drawElements (h.gl.TRIANGLES , 6 , h.gl.UNSIGNED_SHORT , 0);}else {h.buffer.set (framebuffer); h.ctx.putImageData (h.img , 0 , 0);}})());
-            },
-            "__extjs_6ce693459878698d92d56b499a1b2a5f6bb03b69": function($0) {
-                return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof KeyboardEvent) | 0;
-            },
-            "__extjs_02719998c6ece772fc2c8c3dd585272cdb2a127e": function($0, $1) {
-                $0 = Module.STDWEB_PRIVATE.to_js($0);$1 = Module.STDWEB_PRIVATE.to_js($1);($0). add (($1));
-            },
-            "__extjs_5b5aeebcf4e965cfb777ad641c4bb541e6ff16a8": function($0, $1, $2) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){var h = {}; var canvas = ($1); h.gl = ($2); if (! h.gl){console.log ("No WebGL; using Canvas API"); var new_canvas = canvas.cloneNode (true); canvas.parentNode.replaceChild (new_canvas , canvas); canvas = new_canvas ; h.ctx = canvas.getContext ("2d"); h.img = h.ctx.createImageData (128 , 128); h.buffer = new Uint32Array (h.img.data.buffer);}return h ;})());
-            },
-            "__extjs_74d5764ddc102a8d3b6252116087a68f2db0c9d4": function($0) {
-                Module.STDWEB_PRIVATE.from_js($0, (function(){return window ;})());
-            },
-            "__extjs_7c5535365a3df6a4cc1f59c4a957bfce1dbfb8ee": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var listener = ($1); ($2). addEventListener (($3), listener); return listener ;})());
-            },
-            "__extjs_72fc447820458c720c68d0d8e078ede631edd723": function($0, $1, $2) {
-                console.error( 'Panic location:', Module.STDWEB_PRIVATE.to_js_string( $0, $1 ) + ':' + $2 );
-            },
-            "__extjs_ff5103e6cc179d13b4c7a785bdce2708fd559fc0": function($0) {
-                Module.STDWEB_PRIVATE.tmp = Module.STDWEB_PRIVATE.to_js( $0 );
-            },
-            "__extjs_2034053b7b6771271a2dad3e5416b045a74488a1": function($0, $1, $2, $3) {
-                Module.STDWEB_PRIVATE.acquire_js_reference( $0 ).setTimeout( function() {Module.STDWEB_PRIVATE.dyncall( 'vi', $1, [$2] );}, $3 );
-            },
-            "__extjs_bc494db68976b78da58dfc5b138cddc936199ff8": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). location ;})());
-            },
-            "__extjs_d69002be1576953a1f813b250ec4f9f4bdbd33df": function($0, $1, $2) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). getElementById (($2));})());
-            },
-            "__extjs_1c8769c3b326d77ceb673ada3dc887cf1d509509": function($0) {
-                Module.STDWEB_PRIVATE.from_js($0, (function(){return document ;})());
-            },
-            "__extjs_dc2fd915bd92f9e9c6a3bd15174f1414eee3dbaf": function() {
-                console.error( 'Encountered a panic!' );
-            },
-            "__extjs_1681ea457e66a9f3c951512258a2581f67d04a83": function($0) {
-                $0 = Module.STDWEB_PRIVATE.to_js($0);($0). preventDefault ();
-            },
-            "__extjs_7ad1b6d74ad09161e54cc3395928efc20ff7acaf": function($0, $1) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). key ;})());
+            "__extjs_be46082601410ad79cc753a1f76169475e7c6f74": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var callback = ($1); var request = ($2). requestAnimationFrame (callback); return {request : request , callback : callback , window : ($3)};})());
             },
             "__extjs_792ff14631f0ebffafcf6ed24405be73234b64ba": function($0, $1) {
                 $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). classList ;})());
             },
-            "__extjs_be46082601410ad79cc753a1f76169475e7c6f74": function($0, $1, $2, $3) {
-                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var callback = ($1); var request = ($2). requestAnimationFrame (callback); return {request : request , callback : callback , window : ($3)};})());
+            "__extjs_9f22d4ca7bc938409787341b7db181f8dd41e6df": function($0) {
+                Module.STDWEB_PRIVATE.increment_refcount( $0 );
+            },
+            "__extjs_ff5103e6cc179d13b4c7a785bdce2708fd559fc0": function($0) {
+                Module.STDWEB_PRIVATE.tmp = Module.STDWEB_PRIVATE.to_js( $0 );
+            },
+            "__extjs_6a5488be07d91c145b4e70219bfbb8b0cfafde7b": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). getTime ();})());
+            },
+            "__extjs_d69002be1576953a1f813b250ec4f9f4bdbd33df": function($0, $1, $2) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). getElementById (($2));})());
             },
             "__extjs_da7526dacc33bb6de7714dde287806f568820e31": function($0) {
                 $0 = Module.STDWEB_PRIVATE.to_js($0);console.log (($0));
             },
+            "__extjs_bc494db68976b78da58dfc5b138cddc936199ff8": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). location ;})());
+            },
+            "__extjs_1c8769c3b326d77ceb673ada3dc887cf1d509509": function($0) {
+                Module.STDWEB_PRIVATE.from_js($0, (function(){return document ;})());
+            },
+            "__extjs_02719998c6ece772fc2c8c3dd585272cdb2a127e": function($0, $1) {
+                $0 = Module.STDWEB_PRIVATE.to_js($0);$1 = Module.STDWEB_PRIVATE.to_js($1);($0). add (($1));
+            },
+            "__extjs_7ad1b6d74ad09161e54cc3395928efc20ff7acaf": function($0, $1) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);Module.STDWEB_PRIVATE.from_js($0, (function(){return ($1). key ;})());
+            },
+            "__extjs_1681ea457e66a9f3c951512258a2581f67d04a83": function($0) {
+                $0 = Module.STDWEB_PRIVATE.to_js($0);($0). preventDefault ();
+            },
+            "__extjs_5b5aeebcf4e965cfb777ad641c4bb541e6ff16a8": function($0, $1, $2) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){var h = {}; var canvas = ($1); h.gl = ($2); if (! h.gl){console.log ("No WebGL; using Canvas API"); var new_canvas = canvas.cloneNode (true); canvas.parentNode.replaceChild (new_canvas , canvas); canvas = new_canvas ; h.ctx = canvas.getContext ("2d"); h.img = h.ctx.createImageData (128 , 128); h.buffer = new Uint32Array (h.img.data.buffer);}return h ;})());
+            },
             "__extjs_3fdba5930b45aa718ed8a660c7a88a76e22a21d8": function($0, $1) {
                 $0 = Module.STDWEB_PRIVATE.to_js($0);$1 = Module.STDWEB_PRIVATE.to_js($1);($0). remove (($1));
+            },
+            "__extjs_80a88fca18b223bc431783405919f8321ee277a9": function($0) {
+                return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof Date) | 0;
+            },
+            "__extjs_17fae95b6fea15ff7408dfb47803907bfa827e6f": function($0) {
+                Module.STDWEB_PRIVATE.from_js($0, (function(){return new Date ();})());
+            },
+            "__extjs_97495987af1720d8a9a923fa4683a7b683e3acd6": function($0, $1) {
+                console.error( 'Panic error message:', Module.STDWEB_PRIVATE.to_js_string( $0, $1 ) );
+            },
+            "__extjs_6ce693459878698d92d56b499a1b2a5f6bb03b69": function($0) {
+                return (Module.STDWEB_PRIVATE.acquire_js_reference( $0 ) instanceof KeyboardEvent) | 0;
+            },
+            "__extjs_db0226ae1bbecd407e9880ee28ddc70fc3322d9c": function($0) {
+                $0 = Module.STDWEB_PRIVATE.to_js($0);Module.STDWEB_PRIVATE.unregister_raw_value (($0));
+            },
+            "__extjs_74d5764ddc102a8d3b6252116087a68f2db0c9d4": function($0) {
+                Module.STDWEB_PRIVATE.from_js($0, (function(){return window ;})());
             },
             "__extjs_80d6d56760c65e49b7be8b6b01c1ea861b046bf0": function($0) {
                 Module.STDWEB_PRIVATE.decrement_refcount( $0 );
             },
-            "__extjs_97495987af1720d8a9a923fa4683a7b683e3acd6": function($0, $1) {
-                console.error( 'Panic error message:', Module.STDWEB_PRIVATE.to_js_string( $0, $1 ) );
+            "__extjs_9eaf977ac8c385be0e5011091e8c083e9ceafb33": function($0, $1, $2) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);Module.STDWEB_PRIVATE.from_js($0, (function(){var h = ($1); var framebuffer = ($2); if (h.gl){var data = new Uint8Array (framebuffer.buffer , framebuffer.byteOffset , framebuffer.byteLength); h.gl.texSubImage2D (h.gl.TEXTURE_2D , 0 , 0 , 0 , 128 , 128 , h.gl.RGBA , h.gl.UNSIGNED_BYTE , data); h.gl.drawElements (h.gl.TRIANGLES , 6 , h.gl.UNSIGNED_SHORT , 0);}else {h.buffer.set (framebuffer); h.ctx.putImageData (h.img , 0 , 0);}})());
+            },
+            "__extjs_34c25e83c972a5fc9ab25576841f95bb358735cf": function($0, $1, $2, $3, $4) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);$4 = Module.STDWEB_PRIVATE.to_js($4);Module.STDWEB_PRIVATE.from_js($0, (function(){var gl ; var webgl_names = ["webgl" , "experimental-webgl" , "webkit-3d" , "moz-webgl"]; for (var i = 0 ; i < webgl_names.length ; ++i){var name = webgl_names [i]; try {gl = ($1). getContext (name);}catch (err){}if (gl){console.log ("WebGL support using context:" , name); break ;}}if (gl ===null){console.error ("WebGL rendering context not found."); return null ;}var vertex_shader = gl.createShader (gl.VERTEX_SHADER); var fragment_shader = gl.createShader (gl.FRAGMENT_SHADER); gl.shaderSource (vertex_shader , ($2)); gl.shaderSource (fragment_shader , ($3)); gl.compileShader (vertex_shader); gl.compileShader (fragment_shader); if (! gl.getShaderParameter (vertex_shader , gl.COMPILE_STATUS)){console.error ("WebGL vertex shader compilation failed:" , gl.getShaderInfoLog (vertex_shader)); return null ;}if (! gl.getShaderParameter (fragment_shader , gl.COMPILE_STATUS)){console.error ("WebGL fragment shader compilation failed:" , gl.getShaderInfoLog (fragment_shader)); return null ;}var program = gl.createProgram (); gl.attachShader (program , vertex_shader); gl.attachShader (program , fragment_shader); gl.linkProgram (program); if (! gl.getProgramParameter (program , gl.LINK_STATUS)){console.error ("WebGL program linking failed!"); return null ;}gl.useProgram (program); var vertex_attr = gl.getAttribLocation (program , "a_position"); var texcoord_attr = gl.getAttribLocation (program , "a_texcoord"); gl.enableVertexAttribArray (vertex_attr); gl.enableVertexAttribArray (texcoord_attr); var sampler_uniform = gl.getUniformLocation (program , "u_sampler"); gl.uniform1i (sampler_uniform , 0); var matrix = ($4); var matrix_uniform = gl.getUniformLocation (program , "u_matrix"); gl.uniformMatrix4fv (matrix_uniform , false , matrix); var texture = gl.createTexture (); gl.bindTexture (gl.TEXTURE_2D , texture); gl.texImage2D (gl.TEXTURE_2D , 0 , gl.RGBA , 128 , 128 , 0 , gl.RGBA , gl.UNSIGNED_BYTE , new Uint8Array (128 * 128 * 4)); gl.texParameteri (gl.TEXTURE_2D , gl.TEXTURE_MAG_FILTER , gl.NEAREST); gl.texParameteri (gl.TEXTURE_2D , gl.TEXTURE_MIN_FILTER , gl.NEAREST); var vertex_buffer = gl.createBuffer (); gl.bindBuffer (gl.ARRAY_BUFFER , vertex_buffer); var vertices = [0.0 , 0.0 , 0.0 , 128.0 , 128.0 , 0.0 , 128.0 , 128.0]; gl.bufferData (gl.ARRAY_BUFFER , new Float32Array (vertices), gl.STATIC_DRAW); gl.vertexAttribPointer (vertex_attr , 2 , gl.FLOAT , false , 0 , 0); var texcoord_buffer = gl.createBuffer (); gl.bindBuffer (gl.ARRAY_BUFFER , texcoord_buffer); var texcoords = [0.0 , 0.0 , 0.0 , 128.0 / 128.0 , 1.0 , 0.0 , 1.0 , 128.0 / 128.0]; gl.bufferData (gl.ARRAY_BUFFER , new Float32Array (texcoords), gl.STATIC_DRAW); gl.vertexAttribPointer (texcoord_attr , 2 , gl.FLOAT , false , 0 , 0); var index_buffer = gl.createBuffer (); gl.bindBuffer (gl.ELEMENT_ARRAY_BUFFER , index_buffer); var indices = [0 , 1 , 2 , 2 , 3 , 1]; gl.bufferData (gl.ELEMENT_ARRAY_BUFFER , new Uint16Array (indices), gl.STATIC_DRAW); gl.clearColor (0.0 , 0.0 , 0.0 , 1.0); gl.enable (gl.DEPTH_TEST); gl.viewport (0 , 0 , 128 , 128); return gl ;})());
+            },
+            "__extjs_72fc447820458c720c68d0d8e078ede631edd723": function($0, $1, $2) {
+                console.error( 'Panic location:', Module.STDWEB_PRIVATE.to_js_string( $0, $1 ) + ':' + $2 );
+            },
+            "__extjs_dc2fd915bd92f9e9c6a3bd15174f1414eee3dbaf": function() {
+                console.error( 'Encountered a panic!' );
+            },
+            "__extjs_7c5535365a3df6a4cc1f59c4a957bfce1dbfb8ee": function($0, $1, $2, $3) {
+                $1 = Module.STDWEB_PRIVATE.to_js($1);$2 = Module.STDWEB_PRIVATE.to_js($2);$3 = Module.STDWEB_PRIVATE.to_js($3);Module.STDWEB_PRIVATE.from_js($0, (function(){var listener = ($1); ($2). addEventListener (($3), listener); return listener ;})());
+            },
+            "__extjs_2034053b7b6771271a2dad3e5416b045a74488a1": function($0, $1, $2, $3) {
+                Module.STDWEB_PRIVATE.acquire_js_reference( $0 ).setTimeout( function() {Module.STDWEB_PRIVATE.dyncall( 'vi', $1, [$2] );}, $3 );
             },
             "__web_on_grow": function() {
                 const buffer = Module.instance.exports.memory.buffer;

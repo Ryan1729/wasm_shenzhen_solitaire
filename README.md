@@ -6,7 +6,7 @@ This is a port of [Hunter X](https://www.lexaloffle.com/bbs/?uid=26640)'s [pico-
 
 [Right here](https://ryan1729.github.io/wasm_shenzhen_solitaire/).
 
-Keys used: z, x, and the arrow keys.
+Use z, x, and the arrow keys to play. If you win, you can press Enter to deal another game.
 
 ### Building (using Rust's native WebAssembly backend)
 
