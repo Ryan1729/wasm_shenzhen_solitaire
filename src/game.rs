@@ -19,10 +19,6 @@ fn update(state: &mut GameState, input: Input) {
         } else {
             if input.pressed_this_frame(Button::Left) {
                 console!(log, "Button::Left");
-                let oldinv = max(
-                    1,
-                    state.cells[state.selectpos as usize].len() as u8 - state.selectdepth,
-                );
                 state.selectpos = if state.selectpos == 0 {
                     START_OF_TABLEAU - 1
                 } else if state.selectpos == START_OF_TABLEAU {
@@ -34,14 +30,11 @@ fn update(state: &mut GameState, input: Input) {
                     0
                 } else {
                     let len = state.cells[state.selectpos as usize].len() as u8;
-                    min(max(0, len - oldinv), len - 1)
-                };;
+
+                    min(max(0, state.selectdepth), len - 1)
+                };
             } else if input.pressed_this_frame(Button::Right) {
                 console!(log, "Button::Right");
-                let oldinv = max(
-                    1,
-                    state.cells[state.selectpos as usize].len() as u8 - state.selectdepth,
-                );
                 state.selectpos = if state.selectpos == START_OF_TABLEAU - 1 {
                     0
                 } else if state.selectpos >= CELLS_MAX_INDEX {
@@ -53,7 +46,8 @@ fn update(state: &mut GameState, input: Input) {
                     0
                 } else {
                     let len = state.cells[state.selectpos as usize].len() as u8;
-                    min(max(0, len - oldinv), len - 1)
+
+                    min(max(0, state.selectdepth), len - 1)
                 };
             } else if input.pressed_this_frame(Button::Up) {
                 console!(log, "Button::Up");
@@ -292,12 +286,12 @@ fn canmovedragons(state: &GameState, suit: u8) -> bool {
 }
 
 fn movedragons(state: &mut GameState) {
-    let suit = state.selectpos;
+    let suit = state.selectdepth;
     let mut moveto = None;
 
     for i in 0..BUTTON_COLUMN {
         let i = i as usize;
-        if state.cells[i].len() == 0
+        if state.cells[i].len() != 0
             && last_unchecked!(state.cells[i]) == suit * 10
             && moveto.is_none()
         {
