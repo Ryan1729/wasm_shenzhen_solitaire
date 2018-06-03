@@ -1,6 +1,6 @@
 [package]
-name = "rust-wasm-template"
-version = "0.1.0"
+name = "wasm_shenzhen_solitaire"
+version = "1.0.0"
 authors = ["Ryan Wiedemann <Ryan1729@gmail.com>"]
 
 [dependencies]
