@@ -2,6 +2,12 @@
 
 This is a port of [Hunter X](https://www.lexaloffle.com/bbs/?uid=26640)'s [pico-8 version](https://www.lexaloffle.com/bbs/?pid=46634&tid=30310) of [Zachtronic](https://www.zachtronics.com)'s [Shenzhen Solitaire](http://store.steampowered.com/app/570490/SHENZHEN_SOLITAIRE/).
 
+## Playable version
+
+[Right here](https://ryan1729.github.io/wasm_shenzhen_solitaire/).
+
+Keys used: z, x, and the arrow keys.
+
 ### Building (using Rust's native WebAssembly backend)
 
 1. Install newest nightly Rust:
