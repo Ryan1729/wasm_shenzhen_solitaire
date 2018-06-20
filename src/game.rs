@@ -9,6 +9,23 @@ macro_rules! last_unchecked {
 }
 
 fn update(state: &mut GameState, input: Input) {
+    if haswon(state) {
+        if state.win_done {
+            if input.pressed_this_frame(Button::Start) {
+                let wins = state.wins;
+
+                *state = GameState::new();
+
+                state.wins = wins;
+            }
+        } else {
+            state.wins += 1;
+            state.win_done = true;
+        }
+        
+        return;
+    }
+
     if state.movetimer > 0 {
         state.movetimer -= 1;
     }
@@ -114,21 +131,6 @@ fn update(state: &mut GameState, input: Input) {
             } else if input.pressed_this_frame(Button::B) {
                 state.selectdrop = false;
             }
-        }
-    }
-
-    if haswon(state) {
-        if state.win_done {
-            if input.pressed_this_frame(Button::Start) {
-                let wins = state.wins;
-
-                *state = GameState::new();
-
-                state.wins = wins;
-            }
-        } else {
-            state.wins += 1;
-            state.win_done = true;
         }
     }
 }
