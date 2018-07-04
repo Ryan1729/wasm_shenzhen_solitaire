@@ -22,7 +22,7 @@ fn update(state: &mut GameState, input: Input) {
             state.wins += 1;
             state.win_done = true;
         }
-        
+
         return;
     }
 
@@ -139,11 +139,18 @@ fn getselection(cells: &Cells, pos: u8, depth: u8) -> Vec<u8> {
     let pos = pos as usize;
     let depth = depth as usize;
 
+    let len = cells[pos].len();
+    if len == 0 {
+        return Vec::new();
+    }
+
     let mut output = Vec::with_capacity(depth);
+
     for i in 1..=depth + 1 {
-        let index = cells[pos].len() - (depth + 1) + i - 1;
+        let index = len - (depth + 1) + i - 1;
         output.push(cells[pos][index]);
     }
+
     return output;
 }
 
